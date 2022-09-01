@@ -40,27 +40,40 @@ int check_args(char **av)
 	return(1);
 }
 
-void	*routini(void *philo)
+void	lets_eat(t_args *philo)
 {
-	t_args *philosoph;
+	struct timeval	time_now;
+	long			counter;
 
-	philosoph = (t_args *)philo;
+	counter = 0;
+	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(&philo->message);
+	printf("⏳%ld %d has taken a left fork🍴\n", get_current_time(counter), philo->index);
+	pthread_mutex_unlock(&philo->message);
+	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(&philo->message);
+	printf("⏳%ld %d has taken a right fork🍴\n", get_current_time(philo->counter), philo->index);
+	printf("⏳%ld %d is eating 🍝\n", get_current_time(philo->counter), philo->index);
+	pthread_mutex_unlock(&philo->message);
+	gettimeofday(&time_now, NULL);
+	counter = time_now.tv_sec * 1000 + time_now.tv_usec / 1000;
+	while (get_current_time(counter) < philo->time_to_eat)
+		usleep(200);
+	philo->last_meal = get_current_time(philo->counter);
+	philo->number_of_times++;
+}
+
+void	*routini(void *philosoph)
+{
+	t_args *philo;
+
+	philo = (t_args *)philosoph;
 	while(1)
 	{
-		pthread_mutex_lock(philosoph->l_fork);
-		printf("Philosopher %d has taken left fork\n", philosoph->index);	
-		pthread_mutex_lock(philosoph->r_fork);
-		printf("Philosopher %d has taken right fork\n", philosoph->index);
-		printf("Philosopher %d is eating\n", philosoph->index);
-		usleep(philosoph->time_to_eat * 1000);
-		printf("Philosopher %d is sleeping\n", philosoph->index);
-		pthread_mutex_unlock(philosoph->l_fork);
-		pthread_mutex_unlock(philosoph->r_fork);
-		printf("Philosopher %d is sleeping\n", philosoph->index);
-		usleep(philosoph->time_to_sleep * 1000);
-		printf("Philosopher %d is thinking\n", philosoph->index);
+		lets_eat(philo);
+		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_unlock(philo->r_fork);
 	}
-	
 	return (NULL);
 }
 
@@ -71,7 +84,8 @@ int 	born_threads(t_philo *philo)
 	
 	while (i < philo->args->nb_philo)
 	{	
-		philo->args[i].threads = malloc(sizeof(pthread_t));
+		if (!(philo->args[i].threads = malloc(sizeof(pthread_t))))
+			return (0);
 		philo->args[i].index = i + 1;
 		if (pthread_create(philo->args[i].threads, NULL, routini, &philo->args[i]) != 0)
 		{
@@ -111,7 +125,7 @@ int init_data(char **av, t_philo *philos)
 	int i;
 	i = 1;
 
-	philos->args = malloc(sizeof(t_args) * philos->args->nb_philo);
+	philos->args = malloc(sizeof(t_args) * ft_atoi(av[1]));
 	philos->args[0].nb_philo = ft_atoi(av[1]);
 	philos->args[0].time_to_die = ft_atoi(av[2]);
 	philos->args[0].time_to_eat = ft_atoi(av[3]);
@@ -143,9 +157,9 @@ int main(int ac, char **av)
 	
     if(ac == 5 || ac == 6)
     {
-        if(!check_args(av))
-        	return(printf("Error: invalid arguments\n"));
-		if(!init_data(av, &philos))
+        if (!check_args(av))
+			return(printf("Error: invalid arguments\n"));
+		if (!init_data(av, &philos))
 			return(printf("Error\n"));
     }
     else

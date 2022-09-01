@@ -38,3 +38,13 @@ int	ft_atoi(const char *str)
 	}
 	return (neg * nb);
 }
+
+long	get_current_time(long start)
+{
+	struct timeval	time_now;
+	long			counter;
+
+	gettimeofday(&time_now, NULL);
+	counter = time_now.tv_sec * 1000 + time_now.tv_usec / 1000;
+	return (counter - start);
+}

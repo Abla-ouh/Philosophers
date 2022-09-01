@@ -12,6 +12,7 @@
 
 #ifndef PHILO_H
 # define PHILO_H
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -23,10 +24,14 @@ typedef struct s_args
 {
 	int		nb_philo;
 	int		index;
+	long	counter;
 	int		time_to_die;
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		nb_must_eat;
+	pthread_mutex_t message;
+	int		number_of_times;
+	long	last_meal;
 	pthread_t *threads;
 	pthread_mutex_t	mutex_id;
 	pthread_mutex_t *r_fork;
@@ -36,11 +41,13 @@ typedef struct s_args
 typedef struct s_philo
 {
 	struct s_args	*args;
+	int		nb_must_eat;
 	pthread_mutex_t	forks[200];
 	
 }			t_philo;
 
 int    ft_atoi(const char *str);
+long	get_current_time(long start);
 
 
 #endif
