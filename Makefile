@@ -12,7 +12,7 @@
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread 
 
 SRCS = philo.c ph_utils.c 
 

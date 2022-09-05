@@ -39,12 +39,22 @@ int	ft_atoi(const char *str)
 	return (neg * nb);
 }
 
-long	get_current_time(long start)
+long	get_current_time(void)
 {
 	struct timeval	time_now;
-	long			counter;
+	long			millis_t;
 
 	gettimeofday(&time_now, NULL);
-	counter = time_now.tv_sec * 1000 + time_now.tv_usec / 1000;
-	return (counter - start);
+	millis_t = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
+	return (millis_t);
+}
+
+void smart_print(char *message, t_args *philo, int p_id)
+{
+	int millis_t;
+
+	pthread_mutex_lock(&philo->message);
+	millis_t = get_current_time() - philo->init_time;
+	printf(message, millis_t, p_id);
+	pthread_mutex_unlock(&philo->message);
 }

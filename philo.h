@@ -24,7 +24,7 @@ typedef struct s_args
 {
 	int		nb_philo;
 	int		index;
-	long	counter;
+	int		init_time;
 	int		time_to_die;
 	int		time_to_eat;
 	int		time_to_sleep;
@@ -47,7 +47,8 @@ typedef struct s_philo
 }			t_philo;
 
 int    ft_atoi(const char *str);
-long	get_current_time(long start);
+long	get_current_time();
+void	smart_print(char *message, t_args *philo, int p_id);
 
 
 #endif

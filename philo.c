@@ -39,28 +39,27 @@ int check_args(char **av)
     }
 	return(1);
 }
+void	ft_usleep(int ms_time)
+{
+	long start_time;
+	start_time = get_current_time();
+	while((get_current_time() - start_time ) < ms_time)
+		usleep(300);
+}
 
 void	lets_eat(t_args *philo)
 {
-	struct timeval	time_now;
-	long			counter;
-
-	counter = 0;
 	pthread_mutex_lock(philo->l_fork);
-	pthread_mutex_lock(&philo->message);
-	printf("⏳%ld %d has taken a left fork🍴\n", get_current_time(counter), philo->index);
-	pthread_mutex_unlock(&philo->message);
+	smart_print("⏳ %d ms %d has taken a fork🍴\n", philo, philo->index);
 	pthread_mutex_lock(philo->r_fork);
-	pthread_mutex_lock(&philo->message);
-	printf("⏳%ld %d has taken a right fork🍴\n", get_current_time(philo->counter), philo->index);
-	printf("⏳%ld %d is eating 🍝\n", get_current_time(philo->counter), philo->index);
-	pthread_mutex_unlock(&philo->message);
-	gettimeofday(&time_now, NULL);
-	counter = time_now.tv_sec * 1000 + time_now.tv_usec / 1000;
-	while (get_current_time(counter) < philo->time_to_eat)
-		usleep(200);
-	philo->last_meal = get_current_time(philo->counter);
-	philo->number_of_times++;
+	smart_print("⏳ %d ms %d has taken a fork 🍴\n", philo, philo->index);
+	philo->last_meal = get_current_time();
+	smart_print("⏳ %d ms %d is eating 🍝\n", philo, philo->index);
+	ft_usleep(philo->time_to_eat);
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
+	if(philo->nb_must_eat != 0)
+		philo->number_of_times++;
 }
 
 void	*routini(void *philosoph)
@@ -68,11 +67,13 @@ void	*routini(void *philosoph)
 	t_args *philo;
 
 	philo = (t_args *)philosoph;
+	
 	while(1)
 	{
 		lets_eat(philo);
-		pthread_mutex_unlock(philo->l_fork);
-		pthread_mutex_unlock(philo->r_fork);
+		smart_print("⏳ %d ms %d is sleeping 😴\n", philo, philo->index);
+		ft_usleep(philo->time_to_sleep);
+		smart_print("⏳ %d ms %d is thinking 🤔\n", philo, philo->index);
 	}
 	return (NULL);
 }
@@ -80,17 +81,18 @@ void	*routini(void *philosoph)
 int 	born_threads(t_philo *philo)
 {
 	int i;
+	int init_time;
+
 	i = 0;
-	
+	init_time = get_current_time();
 	while (i < philo->args->nb_philo)
 	{	
 		if (!(philo->args[i].threads = malloc(sizeof(pthread_t))))
 			return (0);
 		philo->args[i].index = i + 1;
+		philo->args[i].init_time = init_time;
 		if (pthread_create(philo->args[i].threads, NULL, routini, &philo->args[i]) != 0)
 		{
-			printf("test");
-			exit (1);
 			printf("Error: pthread_create failed\n");
 			return (0);
 		}
@@ -115,7 +117,7 @@ void init_forks(t_philo *philo)
 	while(i < philo->args->nb_philo)
 	{
 		philo->args[i].l_fork = &philo->forks[i];
-		philo->args[i].r_fork = &philo->forks[(i + 1) % philo->args->nb_philo]; //when we do the modulo of number with another number greater thn it , we get the same number 
+		philo->args[i].r_fork = &philo->forks[(i + 1) % philo->args->nb_philo];
 		i++;
 	}
 }
@@ -133,7 +135,7 @@ int init_data(char **av, t_philo *philos)
 	if(av[5])
 		philos->args->nb_must_eat = ft_atoi(av[5]);
 	else
-		philos->args->nb_must_eat = 0; // must have eaten more thn 1
+		philos->args->nb_must_eat = -1; // must have eaten more thn 1
 	if (philos->args[0].nb_philo < 0 || philos->args[0].time_to_die < 0
 		|| philos->args[0].time_to_eat < 0|| philos->args[0].time_to_sleep < 0)
 			return (0);
