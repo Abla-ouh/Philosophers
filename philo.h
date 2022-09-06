@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:51:06 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/08/31 08:49:30 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/06 18:11:00 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_args
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		nb_must_eat;
+	int		done_eating;
 	pthread_mutex_t message;
 	int		number_of_times;
 	long	last_meal;
@@ -46,9 +47,9 @@ typedef struct s_philo
 	
 }			t_philo;
 
-int    ft_atoi(const char *str);
+int		ft_atoi(const char *str);
 long	get_current_time();
 void	smart_print(char *message, t_args *philo, int p_id);
-
+int		monitor(t_philo *philo);
 
 #endif
