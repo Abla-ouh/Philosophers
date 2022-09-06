@@ -65,7 +65,7 @@ void	lets_eat(t_args *philo)
 void	*routini(void *philosoph)
 {
 	t_args *philo;
-
+/
 	philo = (t_args *)philosoph;
 	
 	while(1)
@@ -163,6 +163,8 @@ int main(int ac, char **av)
 			return(printf("Error: invalid arguments\n"));
 		if (!init_data(av, &philos))
 			return(printf("Error\n"));
+		if(monitor(philo))
+			return (1);
     }
     else
 		return (printf("invalid arguments\n"));
