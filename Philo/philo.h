@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:51:06 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/06 18:11:00 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:33:25 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <limits.h>
+#include <stdbool.h>
 
 typedef struct s_args
 {
@@ -29,7 +30,8 @@ typedef struct s_args
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		nb_must_eat;
-	int		done_eating;
+	bool	is_eating;
+	bool	all_eaten_ntimes;
 	pthread_mutex_t message;
 	int		number_of_times;
 	long	last_meal;
@@ -42,8 +44,7 @@ typedef struct s_args
 typedef struct s_philo
 {
 	struct s_args	*args;
-	int		nb_must_eat;
-	pthread_mutex_t	forks[200];
+	pthread_mutex_t	*forks; //with malloc after
 	
 }			t_philo;
 
@@ -51,5 +52,6 @@ int		ft_atoi(const char *str);
 long	get_current_time();
 void	smart_print(char *message, t_args *philo, int p_id);
 int		monitor(t_philo *philo);
+void	ft_usleep(int ms_time);
 
 #endif

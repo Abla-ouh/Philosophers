@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:38:21 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/06 18:19:35 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:34:23 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int check_args(char **av)
     }
 	return(1);
 }
+
 void	ft_usleep(int ms_time)
 {
 	long start_time;
@@ -54,10 +55,12 @@ void	lets_eat(t_args *philo)
 	pthread_mutex_lock(philo->r_fork);
 	smart_print("⏳ %d ms %d has taken a fork 🍴\n", philo, philo->index);
 	philo->last_meal = get_current_time();
+	philo->is_eating = 1;
 	smart_print("⏳ %d ms %d is eating 🍝\n", philo, philo->index);
 	ft_usleep(philo->time_to_eat);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
+	philo->is_eating = 0;
 	if(philo->nb_must_eat != -1)
 	{
 		pthread_mutex_lock(&philo->mutex_id);
@@ -72,9 +75,11 @@ void	*routini(void *philosoph)
 
 	philo = (t_args *)philosoph;
 	
-	while(1)
+	while(philo->nb_must_eat == - 1 || !philo->all_eaten_ntimes)
 	{
 		lets_eat(philo);
+		if (philo->all_eaten_ntimes)
+			return (NULL);
 		smart_print("⏳ %d ms %d is sleeping 😴\n", philo, philo->index);
 		ft_usleep(philo->time_to_sleep);
 		smart_print("⏳ %d ms %d is thinking 🤔\n", philo, philo->index);
@@ -95,6 +100,7 @@ int 	born_threads(t_philo *philo)
 			return (0);
 		philo->args[i].index = i + 1;
 		philo->args[i].init_time = init_time;
+		philo->args[i].last_meal = get_current_time();
 		if (pthread_create(philo->args[i].threads, NULL, routini, &philo->args[i]) != 0)
 		{
 			printf("Error: pthread_create failed\n");
@@ -103,8 +109,6 @@ int 	born_threads(t_philo *philo)
 		usleep(100);
 		i++;
 	}
-	while(1)
-		;
 	return (1);
 }
 
@@ -131,6 +135,7 @@ int init_data(char **av, t_philo *philos)
 	int i;
 	i = 1;
 
+	philos->forks = malloc(sizeof(pthread_mutex_t) * ft_atoi(av[1]));
 	philos->args = malloc(sizeof(t_args) * ft_atoi(av[1]));
 	philos->args[0].nb_philo = ft_atoi(av[1]);
 	philos->args[0].time_to_die = ft_atoi(av[2]);
@@ -151,6 +156,7 @@ int init_data(char **av, t_philo *philos)
 		philos->args[i].nb_must_eat = philos->args->nb_must_eat;
 		i++;
 	}
+	philos->args->all_eaten_ntimes = 0;
 	init_forks(philos);
 	if (!born_threads(philos))
 	 	return (0);
