@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:38:21 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/08 15:34:23 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/08 20:19:55 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,13 @@ int 	born_threads(t_philo *philo)
 	return (1);
 }
 
+#include <stdatomic.h>
+
 void init_forks(t_philo *philo)
 {
 	int i;
+
+	atomic_int acnt;
 	i = 0;
 	while(i < philo->args->nb_philo)
 	{
