@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 15:21:29 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/09 17:51:53 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/09 23:06:28 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_philo
 	int		time_to_sleep;
 	int		nb_must_eat;
 	bool	is_eating;
-	bool	all_eaten_ntimes;
+	bool	done_eating;
 	sem_t   *message;
 	sem_t   *forks;
 	int		number_of_times;

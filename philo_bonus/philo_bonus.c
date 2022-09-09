@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:46:17 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/09 17:10:56 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/09 23:15:10 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int init_data(char **av, t_philo *philos)
 		philos[i].nb_must_eat = philos->nb_must_eat;
 		i++;
 	}
-	philos->all_eaten_ntimes = 0;
+	philos->done_eating = 0;
 	return (1);
 }
 
@@ -97,7 +97,7 @@ int main(int ac, char **av)
 		if (!init_data(av, &philos))
 			return(printf("Error\n"));
         create_process(&philos);
-        
+        monitor(&philos);
     }
     else
 		return (printf("invalid arguments\n"));
