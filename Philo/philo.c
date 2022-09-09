@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:38:21 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/08 20:19:55 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/09 16:31:10 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int 	born_threads(t_philo *philo)
 	i = 0;
 	init_time = get_current_time();
 	while (i < philo->args->nb_philo)
-	{	
+	{
 		if (!(philo->args[i].threads = malloc(sizeof(pthread_t))))
 			return (0);
 		philo->args[i].index = i + 1;
@@ -118,7 +118,6 @@ void init_forks(t_philo *philo)
 {
 	int i;
 
-	atomic_int acnt;
 	i = 0;
 	while(i < philo->args->nb_philo)
 	{
@@ -170,6 +169,7 @@ int init_data(char **av, t_philo *philos)
 int main(int ac, char **av)
 {
 	t_philo philos;
+	
 	
     if(ac == 5 || ac == 6)
     {
