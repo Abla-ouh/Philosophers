@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:38:21 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/09 16:31:10 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/10 15:04:14 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	*routini(void *philosoph)
 	t_args *philo;
 
 	philo = (t_args *)philosoph;
-	
+
 	while(philo->nb_must_eat == - 1 || !philo->all_eaten_ntimes)
 	{
 		lets_eat(philo);
@@ -111,8 +111,6 @@ int 	born_threads(t_philo *philo)
 	}
 	return (1);
 }
-
-#include <stdatomic.h>
 
 void init_forks(t_philo *philo)
 {
