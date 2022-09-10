@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 15:21:29 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/09 23:06:28 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/10 00:41:55 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,8 @@ typedef struct s_philo
  } t_philo;
 
 void    create_process(t_philo *philo);
+void	ft_usleep(int ms_time);
+int	ft_atoi(const char *str);
+long	get_current_time(void);
+void smart_print(char *message, t_philo *philo, int p_id);
 #endif

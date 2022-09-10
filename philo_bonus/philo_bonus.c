@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:46:17 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/09 23:15:10 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/10 00:22:27 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int init_data(char **av, t_philo *philos)
 int main(int ac, char **av)
 {
 	t_philo philos;
-    sem_t *forks;
+    //sem_t *forks;
 	
     if(ac == 5 || ac == 6)
     {
@@ -97,7 +97,7 @@ int main(int ac, char **av)
 		if (!init_data(av, &philos))
 			return(printf("Error\n"));
         create_process(&philos);
-        monitor(&philos);
+        //monitor(&philos);
     }
     else
 		return (printf("invalid arguments\n"));

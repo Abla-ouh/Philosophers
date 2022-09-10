@@ -6,11 +6,24 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:30:01 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/09 23:34:34 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/10 00:19:30 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void *ph_routine(void *philo)
+{
+    t_philo *ph;
+    
+    ph = (t_philo *)philo;
+    while(!ph->done_eating)
+    {
+        if(get_current_time() - ph->last_meal >= ph->time_to_die && !ph->is_eating)
+            exit(1);
+    }
+    return (NULL);
+}
 
 void    lets_eat_bns(t_philo *philo)
 {
