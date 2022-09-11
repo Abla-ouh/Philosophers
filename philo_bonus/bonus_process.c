@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:30:01 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/10 15:11:31 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/10 23:29:42 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,22 @@ void *ph_routine(void *ph)
         smart_print("%d ms %d is thinking\n", philo, philo->index + 1, philo->message);
     }
     philo->done_eating = 1;
-    sem_close(philo->message);
-    sem_close(philo->forks);
 }
 
-// void    lets_eat_bns(t_philo *philo)
-// {
-//     t_philo *ph;
-    
-//     ph = (t_philo *)philo;
-//     while(!ph->done_eating)
-//     {
-//         if(get_current_time() - ph->last_meal >= ph->time_to_die && !ph->is_eating)
-//             exit(1);
-//     }
-//     return (NULL);
-// }
 void to_do(t_philo *philo, int i)
 {
-    pthread_t  thread;
+    pthread_t	thread;
 
     philo->index = i;
     pthread_create(&thread, NULL, &ph_routine, philo);
-    while (1)
+	while(!philo->done_eating)
     {
-        
+        if ((get_current_time() - philo->last_meal) >= philo->time_to_die)
+        {
+            sem_wait(philo->message);
+            smart_print("%ld ms %d is died\n", philo, philo->index + 1, philo->message);
+            exit (1);
+        }  
     }
 }
 
@@ -88,6 +79,8 @@ void create_process(t_philo *philo)
     {
         philo[i].init_time = init_time;
         pid = ft_fork();
+        if(pid != 0)
+            philo[i].pid = pid;
         if (pid == 0)
             to_do(philo, i);
         i++;

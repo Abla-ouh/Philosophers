@@ -6,13 +6,15 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 15:21:29 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/10 12:03:02 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/10 23:02:45 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+#include <sys/types.h>
+#include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -20,9 +22,12 @@
 # include <pthread.h>
 #include <semaphore.h>
 #include <stdbool.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 
 typedef struct s_philo
 {
+	pid_t	pid;
 	int		nb_philo;
 	int		index;
 	int		init_time;

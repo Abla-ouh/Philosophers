@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:46:17 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/10 13:12:36 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 09:24:27 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,18 @@ t_philo *init_data(char **av)
 	return (philos);
 }
 
+void    kill_left(t_philo *philo)
+{
+    int i;
+
+    i = 0;
+    while(i < philo[i].nb_philo)
+    {
+        kill(philo[i].pid, SIGKILL);
+        i++;
+    }
+}
+
 int main(int ac, char **av)
 {
 	t_philo *philos;
@@ -101,11 +113,16 @@ int main(int ac, char **av)
 		if (!philos)
 			return(printf("Error\n"));
         create_process(philos);
-        //monitor(&philos);
-        while (reswait != -1 && status == 0)
-        {        
+        while (reswait != -1 && status == 0)  
+        {
            reswait = waitpid(-1 , &status, 0);
+            printf("test");
+            exit(1);
         }
+        if (status != 0)
+            kill_left(philos);
+        sem_close(philos->message);
+        sem_close(philos->forks);
     }
     else
 		return (printf("invalid arguments\n"));
