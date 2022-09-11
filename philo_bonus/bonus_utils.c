@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 00:21:19 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/10 11:44:24 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 11:06:44 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ void	ft_usleep(int ms_time)
 		usleep(300);
 }
 
-void smart_print(char *message, t_philo *philo, int p_id, sem_t *sem_msg)
+void smart_print(char *message, t_philo *philo, int p_id)
 {
 	int millis_t;
 
-	sem_wait(sem_msg);
+	sem_wait(philo->message);
 	millis_t = get_current_time() - philo->init_time;
 	printf(message, millis_t, p_id);
-	sem_post(sem_msg);
+	sem_post(philo->message);
 }
