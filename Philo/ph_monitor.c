@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:01:56 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 18:23:53 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 20:13:32 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	done_eating(t_philo *ph)
 	i = 0;
 	while (i < ph->args->nb_philo)
 	{
-		if (ph->args->nb_must_eat == -1
-			|| ph->args->nb_must_eat > ph->args->number_of_times)
+		if (ph->args[i].nb_must_eat == -1
+			|| ph->args[i].nb_must_eat > ph->args[i].number_of_times)
 			return (1);
 			i++;
 	}
-	ph->args->all_eaten_ntimes = 1;
+	pthread_mutex_lock(&ph->args->message);
 	return (0);
 }
 

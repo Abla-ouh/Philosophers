@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:38:21 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 18:17:24 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 20:16:16 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ void	*routini(void *philosoph)
 	t_args	*philo;
 
 	philo = (t_args *)philosoph;
+	philo->number_of_times = 0;
 	while (philo->nb_must_eat == -1 || !philo->all_eaten_ntimes)
 	{
 		lets_eat(philo);
-		if (philo->all_eaten_ntimes)
-			return (NULL);
 		smart_print("⏳ %d ms %d is sleeping 😴\n", philo, philo->index);
 		ft_usleep(philo->time_to_sleep);
 		smart_print("⏳ %d ms %d is thinking 🤔\n", philo, philo->index);

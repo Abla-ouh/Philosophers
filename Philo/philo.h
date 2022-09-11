@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:51:06 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 18:19:44 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 20:02:52 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ void	smart_print(char *message, t_args *philo, int p_id);
 int		monitor(t_philo *philo);
 void	ft_usleep(int ms_time);
 void	ft_usleep(int ms_time);
+int		check_args(char **av);
+int		born_threads(t_philo *philo);
 
 #endif

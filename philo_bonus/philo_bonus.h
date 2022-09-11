@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 15:21:29 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 18:48:52 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 19:46:15 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
 	int		time_to_sleep;
 	int		nb_must_eat;
 	sem_t	*bns_sem;
+	sem_t	*last_meal_sem;
 	sem_t	*message;
 	sem_t	*forks;
 	long	last_meal;

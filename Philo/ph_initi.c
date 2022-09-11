@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_initialise.c                                    :+:      :+:    :+:   */
+/*   ph_initi.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 18:09:46 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 18:17:31 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 20:00:32 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,21 @@ void	init_forks(t_philo *philo)
 	}
 }
 
+void	init_struct_var(t_philo *philos)
+{
+	int	i;
+
+	i = 1;
+	while (i < philos->args->nb_philo)
+	{
+		philos->args[i].time_to_sleep = philos->args->time_to_sleep;
+		philos->args[i].time_to_eat = philos->args->time_to_eat;
+		philos->args[i].time_to_die = philos->args->time_to_die;
+		philos->args[i].nb_must_eat = philos->args->nb_must_eat;
+		i++;
+	}
+}
+
 int	init_data(char **av, t_philo *philos)
 {
 	int	i;
@@ -49,14 +64,7 @@ int	init_data(char **av, t_philo *philos)
 	if (philos->args[0].nb_philo < 0 || philos->args[0].time_to_die < 0
 		|| philos->args[0].time_to_eat < 0 || philos->args[0].time_to_sleep < 0)
 		return (0);
-	while (i < philos->args->nb_philo)
-	{
-		philos->args[i].time_to_sleep = philos->args->time_to_sleep;
-		philos->args[i].time_to_eat = philos->args->time_to_eat;
-		philos->args[i].time_to_die = philos->args->time_to_die;
-		philos->args[i].nb_must_eat = philos->args->nb_must_eat;
-		i++;
-	}
+	init_struct_var(philos);
 	philos->args->all_eaten_ntimes = 0;
 	init_forks(philos);
 	if (!born_threads(philos))

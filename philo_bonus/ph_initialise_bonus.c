@@ -6,20 +6,14 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 18:46:58 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 18:54:48 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 20:19:44 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-t_philo	*init_data(char **av)
+void	init_sems(char **av, t_philo *philos)
 {
-	int		i;
-	t_philo	*philos;
-
-	i = 1;
-	philos = malloc(sizeof(t_philo) * ft_atoi(av[1]));
-	philos[0].nb_philo = ft_atoi(av[1]);
 	sem_unlink("forks");
 	philos[0].forks = sem_open("forks", O_CREAT, 0644, philos->nb_philo);
 	if (philos[0].forks == SEM_FAILED)
@@ -43,6 +37,17 @@ t_philo	*init_data(char **av)
 		philos->nb_must_eat = ft_atoi(av[5]);
 	else
 		philos->nb_must_eat = -1;
+}
+
+t_philo	*init_data(char **av)
+{
+	int		i;
+	t_philo	*philos;
+
+	i = 1;
+	philos = malloc(sizeof(t_philo) * ft_atoi(av[1]));
+	philos[0].nb_philo = ft_atoi(av[1]);
+	init_sems(av, philos);
 	if (philos[0].nb_philo < 0 || philos[0].time_to_die < 0
 		|| philos[0].time_to_eat < 0 || philos[0].time_to_sleep < 0)
 		return (0);
