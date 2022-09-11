@@ -6,7 +6,7 @@
 #    By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 07:51:14 by abouhaga          #+#    #+#              #
-#    Updated: 2022/09/08 12:41:30 by abouhaga         ###   ########.fr        #
+#    Updated: 2022/09/11 15:44:32 by abouhaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -pthread
 
-SRCS = philo.c ph_utils.c ph_watch_threads.c
+SRCS = philo.c ph_utils.c ph_monitor.c
 
 NAME = philo
 

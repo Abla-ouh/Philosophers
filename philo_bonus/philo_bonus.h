@@ -6,12 +6,12 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 15:21:29 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 11:10:43 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 18:48:52 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <sys/types.h>
 # include <signal.h>
@@ -24,6 +24,7 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <stdatomic.h>
 
 typedef struct s_philo
 {
@@ -35,19 +36,19 @@ typedef struct s_philo
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		nb_must_eat;
-	bool	is_eating;
-	bool	done_eating;
 	sem_t	*bns_sem;
-	sem_t   *message;
-	sem_t   *forks;
+	sem_t	*message;
+	sem_t	*forks;
 	long	last_meal;
 	int		number_of_times;
- } t_philo;
+}	t_philo;
 
+t_philo	*init_data(char **av);
 void	create_process(t_philo *philo);
 void	ft_usleep(int ms_time);
 int		ft_atoi(const char *str);
 long	get_current_time(void);
 void	smart_print(char *message, t_philo *philo, int p_id);
+void	kill_left(t_philo *philo);
 
 #endif

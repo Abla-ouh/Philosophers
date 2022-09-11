@@ -6,12 +6,11 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 00:21:19 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 11:06:44 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 18:49:34 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
 
 int	ft_atoi(const char *str)
 {
@@ -52,15 +51,16 @@ long	get_current_time(void)
 
 void	ft_usleep(int ms_time)
 {
-	long start_time;
+	long	start_time;
+
 	start_time = get_current_time();
-	while((get_current_time() - start_time ) < ms_time)
+	while ((get_current_time() - start_time) < ms_time)
 		usleep(300);
 }
 
-void smart_print(char *message, t_philo *philo, int p_id)
+void	smart_print(char *message, t_philo *philo, int p_id)
 {
-	int millis_t;
+	int	millis_t;
 
 	sem_wait(philo->message);
 	millis_t = get_current_time() - philo->init_time;

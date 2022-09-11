@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.c                                      :+:      :+:    :+:   */
+/*   ph_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/09 14:46:17 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 18:50:16 by abouhaga         ###   ########.fr       */
+/*   Created: 2022/09/11 18:01:52 by abouhaga          #+#    #+#             */
+/*   Updated: 2022/09/11 18:03:11 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
+
+int	ft_atoi(const char *str)
+{
+	int				i;
+	unsigned long	nb;
+	int				neg;
+
+	i = 0;
+	nb = 0;
+	neg = 1;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+		i++;
+	if (str[i] == '-')
+		neg = -1;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while ((str[i] >= '0') && (str[i] <= '9'))
+	{
+		nb = nb * 10 + str[i] - '0';
+		if ((nb > 9223372036854775807) && (neg < 0))
+			return (0);
+		else if ((nb > 9223372036854775807) && (neg >= 0))
+			return (-1);
+		i++;
+	}
+	return (neg * nb);
+}
 
 int	check_number(char *str)
 {
@@ -38,32 +65,4 @@ int	check_args(char **av)
 		i++;
 	}
 	return (1);
-}
-
-int	main(int ac, char **av)
-{
-	t_philo	*philos;
-	int		status;
-	int		reswait;
-
-	status = 0;
-	reswait = 0;
-	if (ac == 5 || ac == 6)
-	{
-		if (!check_args(av))
-			return (printf("Error: invalid arguments\n"));
-		philos = init_data(av);
-		if (!philos)
-			return (printf("Error\n"));
-		create_process(philos);
-		while (reswait != -1 && status == 0)
-			reswait = waitpid(-1, &status, 0);
-		if (status != 0)
-			kill_left(philos);
-		sem_close(philos->message);
-		sem_close(philos->forks);
-	}
-	else
-		return (printf("invalid arguments\n"));
-	return (0);
 }

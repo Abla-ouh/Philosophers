@@ -6,37 +6,19 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 12:27:25 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/08/31 07:58:51 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 18:19:36 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi(const char *str)
+void	ft_usleep(int ms_time)
 {
-	int				i;
-	unsigned long	nb;
-	int				neg;
+	long	start_time;
 
-	i = 0;
-	nb = 0;
-	neg = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
-		i++;
-	if (str[i] == '-')
-		neg = -1;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while ((str[i] >= '0') && (str[i] <= '9'))
-	{
-		nb = nb * 10 + str[i] - '0';
-		if ((nb > 9223372036854775807) && (neg < 0))
-			return (0);
-		else if ((nb > 9223372036854775807) && (neg >= 0))
-			return (-1);
-		i++;
-	}
-	return (neg * nb);
+	start_time = get_current_time();
+	while ((get_current_time() - start_time) < ms_time)
+		usleep(300);
 }
 
 long	get_current_time(void)
@@ -49,9 +31,9 @@ long	get_current_time(void)
 	return (millis_t);
 }
 
-void smart_print(char *message, t_args *philo, int p_id)
+void	smart_print(char *message, t_args *philo, int p_id)
 {
-	int millis_t;
+	int	millis_t;
 
 	pthread_mutex_lock(&philo->message);
 	millis_t = get_current_time() - philo->init_time;
