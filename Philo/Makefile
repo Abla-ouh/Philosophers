@@ -6,13 +6,13 @@
 #    By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 07:51:14 by abouhaga          #+#    #+#              #
-#    Updated: 2022/09/11 19:57:25 by abouhaga         ###   ########.fr        #
+#    Updated: 2022/09/11 21:34:36 by abouhaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=address
 
 SRCS = philo.c ph_utils.c ph_monitor.c \
 		ph_initi.c ph_parser.c 

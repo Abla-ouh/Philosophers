@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:38:21 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 20:16:16 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/11 22:10:52 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,19 @@ int	main(int ac, char **av)
 {
 	t_philo	philos;
 
-	if (ac == 5 || ac == 6)
+	if (ac != 1)
 	{
-		if (!check_args(av))
-			return (printf("Error: invalid arguments\n"));
-		if (!init_data(av, &philos))
-			return (printf("Error\n"));
-		if (monitor(&philos))
-			return (1);
+		if (ft_atoi(av[1]) > 0 && (ac == 5 || ac == 6))
+		{
+			if (!check_args(av))
+				return (printf("Error: invalid arguments\n"));
+			if (!init_data(av, &philos))
+				return (printf("Error\n"));
+			if (monitor(&philos))
+				return (1);
+		}
+		else
+			return (printf("invalid arguments\n"));
 	}
-	else
-		return (printf("invalid arguments\n"));
 	return (0);
 }
