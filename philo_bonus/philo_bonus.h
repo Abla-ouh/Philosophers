@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 15:21:29 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 19:46:15 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/12 22:24:47 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-# include <stdatomic.h>
 
 typedef struct s_philo
 {

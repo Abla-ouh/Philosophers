@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 18:46:58 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 21:28:10 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/12 21:20:44 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,20 @@
 void	init_sems(char **av, t_philo *philos)
 {
 	sem_unlink("forks");
-	philos[0].forks = sem_open("forks", O_CREAT, 0644, philos->nb_philo);
-	if (philos[0].forks == SEM_FAILED)
-	{
-		printf("Error: sem_open failed\n");
-		exit(1);
-	}
-	sem_unlink("message");
-	philos[0].message = sem_open("message", O_CREAT, 0644, 1);
-	if (philos[0].message == SEM_FAILED)
-	{
-		printf("Error: sem_open failed\n");
-		exit(1);
-	}
 	sem_unlink("bns_sem");
+	sem_unlink("last_meal_sem");
+	sem_unlink("message");
+	philos[0].forks = sem_open("forks", O_CREAT, 0644, philos->nb_philo);
+	philos[0].message = sem_open("message", O_CREAT, 0644, 1);
 	philos[0].bns_sem = sem_open("bns_sem", O_CREAT, 0644, 1);
+	philos[0].last_meal_sem = sem_open("last_meal_sem", O_CREAT, 0644, 1);
+	if (philos[0].forks == SEM_FAILED || philos[0].message == SEM_FAILED
+		|| philos[0].bns_sem == SEM_FAILED
+		|| philos[0].last_meal_sem == SEM_FAILED)
+	{
+		printf("Error: sem_open failed\n");
+		exit(1);
+	}
 	philos[0].time_to_die = ft_atoi(av[2]);
 	philos[0].time_to_eat = ft_atoi(av[3]);
 	philos[0].time_to_sleep = ft_atoi(av[4]);

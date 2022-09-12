@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:46:17 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 22:38:17 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/12 21:36:46 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ int	main(int ac, char **av)
 
 	status = 0;
 	reswait = 0;
-	if (ac == 1)
-		return (0);
-	if (check_args(av) && (ft_atoi(av[1]) > 0 && (ac == 5 || ac == 6)))
+	if (((ac == 5 || ac == 6) && ft_atoi(av[1]) > 0) && check_args(av))
 	{
 		philos = init_data(av);
 		if (!philos)

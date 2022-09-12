@@ -6,7 +6,7 @@
 /*   By: abouhaga <abouhaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:30:01 by abouhaga          #+#    #+#             */
-/*   Updated: 2022/09/11 18:36:02 by abouhaga         ###   ########.fr       */
+/*   Updated: 2022/09/12 22:06:59 by abouhaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	*ph_routine(void *ph)
 		smart_print("%d ms %d has taken a fork\n", philo, philo->index + 1);
 		sem_wait(philo->forks);
 		smart_print("%d ms %d has taken a fork\n", philo, philo->index + 1);
-		sem_wait(philo->bns_sem);
+		sem_wait(philo->last_meal_sem);
 		philo->last_meal = get_current_time();
-		sem_post(philo->bns_sem);
+		sem_post(philo->last_meal_sem);
 		smart_print("%d ms %d is eating 🍝\n", philo, philo->index + 1);
 		if (philo->nb_must_eat != -1)
 			philo->number_of_times++;
@@ -44,6 +44,7 @@ void	*ph_routine(void *ph)
 void	to_do(t_philo *philo, int i)
 {
 	pthread_t	thread;
+	long		spent_time;
 
 	sem_wait(philo->bns_sem);
 	philo->index = i;
@@ -52,7 +53,10 @@ void	to_do(t_philo *philo, int i)
 	pthread_create(&thread, NULL, ph_routine, philo);
 	while (4814)
 	{
-		if ((get_current_time() - philo->last_meal) >= philo->time_to_die)
+		sem_wait(philo->last_meal_sem);
+		spent_time = get_current_time() - philo->last_meal;
+		sem_post(philo->last_meal_sem);
+		if (spent_time >= philo->time_to_die)
 		{
 			sem_wait(philo->message);
 			printf("%ld ms %d is dead\n", get_current_time() - philo->init_time,
